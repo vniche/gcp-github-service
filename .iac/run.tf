@@ -37,6 +37,15 @@ resource "google_cloud_run_v2_service" "cloud_run_service" {
   }
 }
 
+resource "google_cloud_run_service_iam_binding" "default" {
+  location = google_cloud_run_v2_service.cloud_run_service.location
+  service  = google_cloud_run_v2_service.cloud_run_service.name
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers"
+  ]
+}
+
 output "service_uri" {
   value = google_cloud_run_v2_service.cloud_run_service.uri
 }
