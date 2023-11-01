@@ -5,6 +5,9 @@ resource "google_cloud_run_v2_service" "cloud_run_service" {
     service_account = var.service_account_email
     containers {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.image_repository}/${var.image_name}:${var.image_tag}"
+      ports {
+        container_port = 3333
+      }
       resources {
         limits = {
           "cpu" : 1,
@@ -14,10 +17,6 @@ resource "google_cloud_run_v2_service" "cloud_run_service" {
       env {
         name  = "SECRET_PATH"
         value = "/secret/${var.secret_name}"
-      }
-      env {
-        name = "PORT"
-        value = "3333"
       }
       volume_mounts {
         name       = "secret"
