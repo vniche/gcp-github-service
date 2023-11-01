@@ -15,6 +15,10 @@ resource "google_cloud_run_v2_service" "cloud_run_service" {
         name  = "SECRET_PATH"
         value = "/secret/${var.secret_name}"
       }
+      env {
+        name = "PORT"
+        value = "3333"
+      }
       volume_mounts {
         name       = "secret"
         mount_path = "/secret/"
